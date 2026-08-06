@@ -82,15 +82,21 @@ def mod():
             e2.insert(tk.END,rt1[i]+"\n","white")
     elif v.get()==5:
         if os.path.exists("tmp/tmp.txt") == False or checkbuttons3.get() == 0:
-            messagebox.showinfo("提示","请选择一个文本文件，文件内每行一个学号",parent=root_window)
-            file_path = filedialog.askopenfilename(title="选择学号文件", filetypes=[("文本文件", "*.txt")])
-            os.makedirs("tmp", exist_ok=True)
-            with open("tmp/tmp.txt", 'w') as f:
-                f.write(file_path)
+            result = messagebox.askquestion("提示","请选择一个文本文件，文件内每行一个学号",parent=root_window)
+            if result == 'yes':
+                file_path = filedialog.askopenfilename(title="选择学号文件", filetypes=[("文本文件", "*.txt")])
+                os.makedirs("tmp", exist_ok=True)
+                with open("tmp/tmp.txt", 'w') as f:
+                    f.write(file_path)
         else:
             with open("tmp/tmp.txt", 'r') as f:
                 file_path = f.read()
-        a=choose.load_from_file(file_path)
+        try:
+            with open(file_path, 'r') as f: # type: ignore
+                a=choose.load_from_file(file_path)  # type: ignore # Just to check if the file can be opened
+        except FileNotFoundError:
+            messagebox.showerror("错误", "未找到指定文件", parent=root_window)
+            return
         rt1=choose.custom(a,int(e1.get()))
         for i in range(len(rt1)):
             e2.insert(tk.END,rt1[i]+"\n","white")

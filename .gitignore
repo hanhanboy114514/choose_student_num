@@ -5,3 +5,7 @@
 /dist
 /tmp
 /*.spec
+/choose.build
+/choose.dist
+/choose.onefile-build
+/choose.exe
