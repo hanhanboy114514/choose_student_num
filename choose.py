@@ -156,18 +156,6 @@ def homo114514():
     t1 = tk.Label(h114514,image=photo)
     t1.image = photo # type: ignore
     t1.pack()
-def resource_path(relative_path):
-    """获取打包后资源文件的绝对路径"""
-    if hasattr(sys, '_MEIPASS'):
-        # 如果是打包后的环境
-        # 使用 getattr 以避免静态类型检查器将 _MEIPASS 视为未知属性
-        base_path = getattr(sys, '_MEIPASS')
-    else:
-        # 开发环境，直接使用当前路径
-        base_path = os.path.abspath("E:\\desktop\\Desktop\\12\\新建文件夹 (5)")
-    return os.path.join(base_path, relative_path)
-cd=resource_path("")
-os.chdir(cd)
 def center_window(root, width, height):
     # 获取屏幕尺寸
     screenwidth = root.winfo_screenwidth()
