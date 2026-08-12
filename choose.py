@@ -6,6 +6,32 @@ import os
 from PIL import Image, ImageTk
 from tkinter import filedialog
 import webbrowser
+from pathlib import Path
+def get_resource_path(relative_path: str) -> Path:
+    """统一获取资源绝对路径（只读场景）"""
+    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+        # PyInstaller 兼容分支（留作扩展）
+        base_path = Path(sys._MEIPASS) # type: ignore
+    elif getattr(sys, 'frozen', False):
+        # Nuitka --onefile：使用 sys.executable 所在目录的临时资源根
+        # Nuitka 1.5+ 提供了 nuitka.__compiled__ 和 nuitka.utils.execution.getTempDir()
+        try:
+            from nuitka.utils.execution import getTempDir # type: ignore
+            temp_root = Path(getTempDir())
+            # 查找以 .nuitka- 开头的最近子目录（匹配实际解压结构）
+            candidates = list(temp_root.glob(".nuitka-*"))
+            if candidates:
+                base_path = candidates[0]
+            else:
+                base_path = temp_root
+        except (ImportError, OSError):
+            # 回退：尝试从 sys.executable 推导（适用于 onedir 或部分 onefile）
+            base_path = Path(sys.executable).parent
+    else:
+        # 未冻结：开发态，直接基于当前模块位置
+        base_path = Path(__file__).parent
+    
+    return (base_path / relative_path).resolve()
 def mind_maneger():
     '''神经资源管理器'''
     def b():
@@ -14,7 +40,7 @@ def mind_maneger():
         second=tk.Toplevel(root_window)
         second.title('神经资源管理器')
         second.geometry("350x170")
-        second.iconbitmap("assets/12.ico")
+        second.iconbitmap(get_resource_path("assets/12.ico"))
         t1ext = tk.Label(second,text="你似了",font=("微软雅黑",30),fg="#0033a7")
         t1ext.pack(anchor="w")
         second.mainloop()
@@ -38,7 +64,7 @@ def mind_maneger():
         window.grab_release()
         window.destroy()
     window.geometry('350x170')
-    window.iconbitmap("assets/12.ico")
+    window.iconbitmap(get_resource_path("assets/12.ico"))
     text = tk.Label(window,text="  脑子 未响应",font=("微软雅黑", 12),fg='#0033a7')
     text.pack(anchor="w",fill="y",pady=6)
     la2 = tk.Label(window,text="  如果关闭此器官，可能会当场暴毙\n",font=("微软雅黑", 10))
@@ -125,7 +151,7 @@ def Ciallo():
     ciallo.title("彩蛋")
     ciallo.geometry("400x100")
     center_window(ciallo, 400, 100)
-    ciallo.iconbitmap("assets/7.ico")
+    ciallo.iconbitmap(get_resource_path("assets/7.ico"))
     ciallo.resizable(False,False)
     t1=tk.Entry(ciallo,width=56)
     t1.grid(row=0)
@@ -139,7 +165,7 @@ def c0721():
     URL="https://www.bilibili.com/video/BV1L4421S7Kr"
     webbrowser.open(URL)
 def homo114514():
-    img = Image.open('./assets/1234.png')
+    img = Image.open(get_resource_path('assets/1234.png'))
     img = img.resize((240,150))
     photo = ImageTk.PhotoImage(img)
     h114514 = tk.Toplevel(root_window)
@@ -157,7 +183,7 @@ def homo114514():
         window.destroy()
     h114514.title("homo")
     center_window(h114514, 240, 150)
-    h114514.iconbitmap("assets/7.ico")
+    h114514.iconbitmap(get_resource_path("assets/7.ico"))
     h114514.resizable(False,False)
     t1 = tk.Label(h114514,image=photo)
     t1.image = photo # type: ignore
@@ -184,7 +210,7 @@ v.set(4)
 # 给主窗口起一个名字，也就是窗口的名字
 root_window.title('抽学号')
 center_window(root_window, 750, 650)
-root_window.iconbitmap("assets/bg_cs_r_00.ico")
+root_window.iconbitmap(get_resource_path("assets/bg_cs_r_00.ico"))
 root_window.resizable(False, False)
 # 菜单栏
 menu_bar = tk.Menu(root_window)
