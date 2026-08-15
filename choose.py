@@ -32,6 +32,22 @@ def get_resource_path(relative_path: str) -> Path:
         base_path = Path(__file__).parent
     
     return (base_path / relative_path).resolve()
+def set_window_icon(window, icon_path: str) -> None:
+    """跨平台设置窗口图标。
+
+    Windows 的 Tk 支持 iconbitmap(.ico)；Linux/macOS 的 Tk 无法解析 .ico 位图
+    （运行时会报 TclError: bitmap ... not defined），因此改用 PIL 读取图标后
+    通过 iconphoto 设置。任何失败都静默跳过，避免无图标环境下程序崩溃。
+    """
+    try:
+        if sys.platform == "win32":
+            window.iconbitmap(icon_path)
+        else:
+            img = ImageTk.PhotoImage(Image.open(icon_path).convert("RGBA"))
+            window.iconphoto(True, img)
+            window._icon_ref = img  # 保持引用，防止被垃圾回收后图标消失
+    except Exception:
+        pass
 def mind_maneger():
     '''神经资源管理器'''
     def b():
@@ -40,7 +56,7 @@ def mind_maneger():
         second=tk.Toplevel(root_window)
         second.title('神经资源管理器')
         second.geometry("350x170")
-        second.iconbitmap(get_resource_path("assets/12.ico"))
+        set_window_icon(second, get_resource_path("assets/12.ico")) # type: ignore
         t1ext = tk.Label(second,text="你似了",font=("微软雅黑",30),fg="#0033a7")
         t1ext.pack(anchor="w")
         second.mainloop()
@@ -64,7 +80,7 @@ def mind_maneger():
         window.grab_release()
         window.destroy()
     window.geometry('350x170')
-    window.iconbitmap(get_resource_path("assets/12.ico"))
+    set_window_icon(window, get_resource_path("assets/12.ico")) # type: ignore
     text = tk.Label(window,text="  脑子 未响应",font=("微软雅黑", 12),fg='#0033a7')
     text.pack(anchor="w",fill="y",pady=6)
     la2 = tk.Label(window,text="  如果关闭此器官，可能会当场暴毙\n",font=("微软雅黑", 10))
@@ -156,7 +172,7 @@ def Ciallo():
     ciallo.title("彩蛋")
     ciallo.geometry("400x100")
     center_window(ciallo, 400, 100)
-    ciallo.iconbitmap(get_resource_path("assets/7.ico"))
+    set_window_icon(ciallo, get_resource_path("assets/7.ico")) # type: ignore
     ciallo.resizable(False,False)
     t1=tk.Entry(ciallo,width=56)
     t1.grid(row=0)
@@ -188,7 +204,7 @@ def homo114514():
         window.destroy()
     h114514.title("homo")
     center_window(h114514, 240, 150)
-    h114514.iconbitmap(get_resource_path("assets/7.ico"))
+    set_window_icon(h114514, get_resource_path("assets/7.ico")) # type: ignore
     h114514.resizable(False,False)
     t1 = tk.Label(h114514,image=photo)
     t1.image = photo # type: ignore
@@ -215,7 +231,7 @@ v.set(4)
 # 给主窗口起一个名字，也就是窗口的名字
 root_window.title('抽学号')
 center_window(root_window, 750, 650)
-root_window.iconbitmap(get_resource_path("assets/bg_cs_r_00.ico"))
+set_window_icon(root_window, get_resource_path("assets/bg_cs_r_00.ico")) # type: ignore
 root_window.resizable(False, False)
 # 菜单栏
 menu_bar = tk.Menu(root_window)
@@ -225,7 +241,7 @@ menu_bar.add_cascade(label="帮助",menu=file_menu)
 file_menu.add_command(label="彩蛋",command=Ciallo)
 file_menu.add_command(label="关于",command=lambda: messagebox.showinfo("关于","2026©hanhan_boy Version 1.0.1",parent=root_window))
 # 主界面
-text = tk.Label(root_window,bg="#F5F5F7",text="欢迎来到抽学号程序！\n此程序目前有两个模式：\nBlue Archieve(BA)模式和Genshin Impact（GI）模式\nBA有概率触发九蓝一金，GI模式没有\n有概率抽卡次数没达到设定的值\nBA有概率弹出“脑子 未响应”弹窗，如果选择关闭器官选项，则会直接关闭程序，不管后面选了其他选项\n为保障您的使用体验，这边建议选择GI模式。",font=("微软雅黑", 12))
+text = tk.Label(root_window,bg="#F5F5F7",text="欢迎来到抽学号程序！\n此程序目前有两个模式：\nBlue Archieve(BA)模式和Genshin Impact（GI）模式\nBA有概率弹出“脑子 未响应”弹窗，如果选择关闭器官选项，则会直接关闭程序，不管后面选了其他选项\n为保障您的使用体验，这边建议选择GI模式。\n",font=("微软雅黑", 12))
 text.grid(row=0,column=0,columnspan=4)
 r1=tk.Radiobutton(root_window,bg="#F5F5F7",text="BA模式",variable=v,value=1)
 r1.grid(row=1,column=0)
@@ -252,7 +268,7 @@ e2=tk.Text(root_window,width=80)
 e2.grid(row=6,column=0,columnspan=4)
 scrollbar = tk.Scrollbar(root_window, orient='vertical', command=e2.yview)
 scrollbar.grid(row=6,column=3,sticky='ns')
-e2.config(bg="grey",font=("微软雅黑", 12),yscrollcommand=scrollbar.set,width=70,height=14)
+e2.config(bg="grey",font=("微软雅黑", 12),yscrollcommand=scrollbar.set,width=70,height=16)
 e2.tag_configure("blue",foreground="blue")
 e2.tag_configure("white",foreground="white")
 e2.tag_configure("yellow",foreground="yellow")
