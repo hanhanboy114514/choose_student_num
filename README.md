@@ -4,7 +4,7 @@
 
 ## 安装
 ### 一、直接下载
-Windows平台在Github Realess直接下载
+Windows在Github Realess直接下载
 ### 二、编译
 ### 1.克隆
     git clone https://github.com/hanhanboy114514/choose_student_num.git
@@ -19,7 +19,7 @@ Linux/MacOS
     python3 -m venv venv
     source venv/bin/activate
 ### 3.编译
-#### (1)Windows平台
+#### （1）Windows
 使用nuitka
 
     pip install nuitka
