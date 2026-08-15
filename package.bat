@@ -9,9 +9,9 @@ IF EXIST "choose.dist" RMDIR /S /Q "choose.dist"
 IF EXIST "__pycache__" RMDIR /S /Q "__pycache__"
 IF "%1" == "--nuitka" (
     IF "%2" == "--onefile" (
-        python -m nuitka --follow-imports --standalone --enable-plugin=tk-inter --include-data-dir=assets=assets --windows-icon-from-ico=./assets/bg_cs_r_00.ico --show-progress --windows-console-mod=disable choose.py
+        python -m nuitka --follow-imports --standalone --enable-plugin=tk-inter --include-data-dir=assets=assets --windows-icon-from-ico=./assets/bg_cs_r_00.ico --show-progress --windows-console-mod=disable --onefile choose.py
     ) ELSE (
-        python -m nuitka --follow-imports --standalone --enable-plugin=tk-inter --include-data-dir=assets=assets --windows-icon-from-ico=./assets/bg_cs_r_00.ico --show-progress choose.py
+        python -m nuitka --follow-imports --standalone --enable-plugin=tk-inter --include-data-dir=assets=assets --windows-icon-from-ico=./assets/bg_cs_r_00.ico --show-progress --windows-console-mod=disable choose.py
     )
 )ELSE IF "%1" == "--pyinstaller" (
     IF "%2" == "--onefile" (
