@@ -79,6 +79,7 @@ def mod():
     if checkbuttons1.get() == 1:
         e2.delete(0.0,tk.END)
     if v.get()==1:
+        #蔚蓝档案模式抽学号
         rt1,rt2=choose.ba(int(e1.get()),checkbuttons2.get())
         for i in range(len(rt1)):
             if checkbuttons2.get() == 1 and rt1[i] == "mind maneger":
@@ -87,6 +88,7 @@ def mod():
             else:
                 e2.insert(tk.END,rt1[i]+"\n",rt2[i])
     elif v.get()==2:
+        #原神模式抽学号
         rt1,rt2=choose.gl(int(e1.get()))
         for i in range(len(rt1)):
             if checkbuttons2.get() == 1 and rt1[i] == "mind maneger":
@@ -95,6 +97,7 @@ def mod():
             else:
                 e2.insert(tk.END,rt1[i]+"\n",rt2[i])
     elif v.get()==3:
+        #蔚蓝档案角色模式抽学号
         rt1,rt2=choose.bac(int(e1.get()),checkbuttons2.get())
         for i in range(len(rt1)):
             if checkbuttons2.get() == 1 and rt1[i] == "mind maneger":
@@ -103,10 +106,12 @@ def mod():
             else:
                 e2.insert(tk.END,rt1[i]+"\n",rt2[i])
     elif v.get()==4:
+        #正常模式抽学号
         rt1=choose.nomal(int(e1.get()))
         for i in range(len(rt1)):
             e2.insert(tk.END,rt1[i]+"\n","white")
     elif v.get()==5:
+        #自定义模式抽学号
         if os.path.exists("tmp/tmp.txt") == False or checkbuttons3.get() == 0:
             result = messagebox.askquestion("提示","请选择一个文本文件，文件内每行一个学号",parent=root_window)
             if result == 'yes':
@@ -218,7 +223,7 @@ root_window.config(menu=menu_bar)
 file_menu=tk.Menu(menu_bar,tearoff=0)
 menu_bar.add_cascade(label="帮助",menu=file_menu)
 file_menu.add_command(label="彩蛋",command=Ciallo)
-file_menu.add_command(label="关于",command=lambda: messagebox.showinfo("关于","2026©hanhan_boy Version 1.0.0-hotfix",parent=root_window))
+file_menu.add_command(label="关于",command=lambda: messagebox.showinfo("关于","2026©hanhan_boy Version 1.0.1",parent=root_window))
 # 主界面
 text = tk.Label(root_window,bg="#F5F5F7",text="欢迎来到抽学号程序！\n此程序目前有两个模式：\nBlue Archieve(BA)模式和Genshin Impact（GI）模式\nBA有概率触发九蓝一金，GI模式没有\n有概率抽卡次数没达到设定的值\nBA有概率弹出“脑子 未响应”弹窗，如果选择关闭器官选项，则会直接关闭程序，不管后面选了其他选项\n为保障您的使用体验，这边建议选择GI模式。",font=("微软雅黑", 12))
 text.grid(row=0,column=0,columnspan=4)
