@@ -35,11 +35,11 @@ Linux/MacOS
 
     pip install nuitka
     chmod +x package.sh
-    .\package.sh --nuitka #多文件
-    .\package.sh --nuitka --onefile #单文件
+    ./package.sh --nuitka #多文件
+    ./package.sh --nuitka --onefile #单文件
 使用pyinstaller
 
     pip install pyinstaller
     chmod +x package.sh
-    .\package.sh --pyinstaller #多文件
-    .\package.sh --pyinstaller --onefile #单文件
+    ./package.sh --pyinstaller #多文件
+    ./package.sh --pyinstaller --onefile #单文件
