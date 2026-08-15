@@ -4,7 +4,7 @@
 
 ## 安装
 ### 一、直接下载
-在Github Realess直接下载
+Windows平台在Github Realess直接下载
 ### 二、编译
 ### 1.克隆
     git clone https://github.com/hanhanboy114514/choose_student_num.git
