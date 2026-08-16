@@ -5,7 +5,7 @@ import sys
 import os
 from PIL import Image, ImageTk
 from tkinter import filedialog
-import webbrowser
+import webbrowser 
 from pathlib import Path
 def get_resource_path(relative_path: str) -> Path:
     """统一获取资源绝对路径（只读场景）"""
@@ -276,4 +276,7 @@ e2.tag_configure("magenta",foreground="magenta")
 root_window.configure(bg="#F5F5F7")
 root_window.bind('<Return>', lambda event: mod())
 root_window.bind('<KP_Enter>', lambda event: mod())
+if str(sys.argv[1:]) == "['test_time']":
+    #测量启动用时
+    sys.exit(0)
 root_window.mainloop()
