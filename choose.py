@@ -186,7 +186,7 @@ def Ciallo():
     ciallo.title("彩蛋")
     cw,ch=scaled_size(400,100)
     center_window(ciallo, cw, ch)
-    set_window_icon(ciallo, get_resource_path("assets/7.ico")) # type: ignore
+    set_window_icon(ciallo, get_resource_path("assets/favicon.ico")) # type: ignore
     ciallo.resizable(False,False)
     t1=tk.Entry(ciallo,width=56)
     t1.grid(row=0)
@@ -405,7 +405,7 @@ v.set(4)
 root_window.title('抽学号')
 main_w, main_h = scaled_size(MAIN_WINDOW_W, MAIN_WINDOW_H)
 center_window(root_window, main_w, main_h)
-set_window_icon(root_window, get_resource_path("assets/bg_cs_r_00.ico")) # type: ignore
+set_window_icon(root_window, get_resource_path("assets/favicon.ico")) # type: ignore
 root_window.resizable(True, True)  # 允许拖动调整窗口大小，内容随窗口自适应
 # 菜单栏
 menu_bar = tk.Menu(root_window)

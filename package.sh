@@ -25,7 +25,7 @@ set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 # 图标路径（如需更换图标改这里即可；Linux 下若 Nuitka 不支持 .ico 可换成 .png）
-ICON="./assets/bg_cs_r_00.ico"
+ICON="./assets/favicon.png"
 
 # ---------- 清理上次构建产物（对应 package.bat 第 2~9 行） ----------
 rm -rf "dist" "build" "choose.onefile-build" "choose.build" "choose.dist" "__pycache__"
