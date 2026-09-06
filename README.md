@@ -27,7 +27,7 @@ Linux/MacOS
     pip install sv_ttk
     pip install ccache #可选，建议安装
     pip install zstandard #可选，压缩单文件
-    .\package.bat --nuitka #多文件，生成在dist
+    .\package.bat --nuitka #多文件，生成在choose.dist
     .\package.bat --nuitka --onefile #单文件，直接生成在根目录
 使用pyinstaller
 
@@ -43,7 +43,7 @@ Linux/MacOS
     pip install ccache #可选，建议安装
     pip install zstandard #可选，压缩单文件
     chmod +x package.sh
-    ./package.sh --nuitka #多文件，生成在dist
+    ./package.sh --nuitka #多文件，生成在choose.dist
     ./package.sh --nuitka --onefile #单文件，直接生成在根目录
 使用pyinstaller
 
