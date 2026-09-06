@@ -4,7 +4,7 @@
 
 ## 安装
 ### 一、直接下载
-Windows在Github Realess直接下载
+Windows在[Github Realess](https://github.com/hanhanboy114514/choose_student_num/releases/latest)下载
 ### 二、自行编译
 ### 1.克隆
     git clone https://github.com/hanhanboy114514/choose_student_num.git
@@ -51,7 +51,7 @@ Linux/MacOS
     chmod +x package.sh
     ./package.sh --pyinstaller #多文件，生成在dist
     ./package.sh --pyinstaller --onefile #单文件，生成在dist
-如报错"FATAL: tk-inter: Error, it seems 'tk-inter' is not installed."
+如报错`FATAL: tk-inter: Error, it seems 'tk-inter' is not installed.`
 
     sudo apt install python3-tk #包管理软件以实际情况为准
 ## 自定义模式
