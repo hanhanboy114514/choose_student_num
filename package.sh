@@ -59,11 +59,11 @@ case "${1:-}" in
             "$PYTHON" -m nuitka --follow-imports --standalone --enable-plugin=tk-inter \
                 --include-data-dir=assets=assets "${ICON_OPTS[@]}" \
                 --onefile \
-                --product-version=1.0.2 --product-name="抽学号" --company-name=hanhan_boy choose.py
+                --product-version=1.0.2 --company-name=hanhan_boy choose.py
         else
             "$PYTHON" -m nuitka --follow-imports --standalone --enable-plugin=tk-inter \
                 --include-data-dir=assets=assets "${ICON_OPTS[@]}" \
-                --product-version=1.0.2 --product-name="抽学号" --company-name=hanhan_boy choose.py
+                --product-version=1.0.2 --company-name=hanhan_boy choose.py
         fi
         ;;
     --pyinstaller)
