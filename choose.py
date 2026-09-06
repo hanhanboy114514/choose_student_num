@@ -2,6 +2,8 @@ import tkinter as tk
 import tkinter.font as tkfont
 import choose_lib as choose
 from tkinter import messagebox
+from tkinter import ttk
+import sv_ttk
 import sys
 import os
 from PIL import Image, ImageTk
@@ -142,6 +144,7 @@ def mod():
                 os.makedirs("tmp", exist_ok=True)
                 with open("tmp/tmp.txt", 'w') as f:
                     f.write(file_path)
+                checkbuttons3.set(1)
         else:
             with open("tmp/tmp.txt", 'r') as f:
                 file_path = f.read()
@@ -179,18 +182,17 @@ def Ciallo():
     
     # 当窗口关闭时释放grab
     ciallo.protocol("WM_DELETE_WINDOW", lambda: on_close(ciallo))
-
     def on_close(window):
         window.grab_release()
         window.destroy()
     ciallo.title("彩蛋")
-    cw,ch=scaled_size(400,100)
+    cw,ch=scaled_size(220,100)
     center_window(ciallo, cw, ch)
     set_window_icon(ciallo, get_resource_path("assets/favicon.ico")) # type: ignore
     ciallo.resizable(False,False)
-    t1=tk.Entry(ciallo,width=56)
+    t1=ttk.Entry(ciallo,width=30)
     t1.grid(row=0)
-    b2=tk.Button(ciallo,text="确定",font=("微软雅黑",font_scale(12)),command=Homo)
+    b2=ttk.Button(ciallo,text="确定",command=Homo,style="TButton")
     b2.grid(row=1)
     # 绑定回车键到按钮
     ciallo.bind('<Return>', lambda event: Homo())
@@ -201,7 +203,7 @@ def Ciallo():
         webbrowser.open(URL)
     def homo114514():
         img = Image.open(get_resource_path('assets/1234.png'))
-        iw,ih=scaled_size(240,150)
+        iw,ih=scaled_size(150,150)
         img = img.resize((iw,ih))
         photo = ImageTk.PhotoImage(img)
         h114514 = tk.Toplevel(root_window)
@@ -218,11 +220,11 @@ def Ciallo():
             window.grab_release()
             window.destroy()
         h114514.title("homo")
-        hw,hh=scaled_size(240,150)
+        hw,hh=scaled_size(150,150)
         center_window(h114514, hw, hh)
-        set_window_icon(h114514, get_resource_path("assets/7.ico")) # type: ignore
+        set_window_icon(h114514, get_resource_path("assets/favicon.ico")) # type: ignore
         h114514.resizable(False,False)
-        t1 = tk.Label(h114514,image=photo)
+        t1 = ttk.Label(h114514,image=photo)
         t1.image = photo # type: ignore
         t1.pack()
 # ============ 不同分辨率 / 高分屏 适配 ============
@@ -328,6 +330,26 @@ def font_scale(points) -> int:
     return max(1, round(points * UI_SCALE))
 
 
+def style_ttk_fonts(root) -> None:
+    """配置 ttk 控件的字号。
+
+    ttk 的按钮/单选框/复选框等不能像经典控件那样直接传 font= 参数，
+    字号必须通过 ttk.Style 按样式（style）配置；
+    且必须在 sv_ttk 主题应用之后再配置——theme_use 切换主题会重置
+    之前对样式做的所有修改。字号仍走 font_scale，随分辨率/DPI 缩放。
+    """
+    try:
+        s = ttk.Style()
+        size_main = font_scale(10)
+        s.configure("TButton", font=("微软雅黑", size_main))
+        s.configure("TRadiobutton", font=("微软雅黑", size_main))
+        s.configure("TCheckbutton", font=("微软雅黑", size_main))
+        s.configure("TEntry", font=("微软雅黑", size_main))
+        s.configure("TLabel", font=("微软雅黑", size_main))
+    except Exception:
+        pass
+
+
 def scale_default_fonts(root) -> None:
     """按 UI_SCALE 缩放 Tk 内置的默认字体。
 
@@ -393,6 +415,11 @@ compute_dpi_scale(root_window)
 setup_tk_scaling(root_window)
 compute_ui_scale(root_window)
 scale_default_fonts(root_window)
+# sv_ttk 主题要在创建控件前应用；ttk 字号必须等主题切换完成后再配置，
+# 否则会被 theme_use 重置（见 style_ttk_fonts）
+if sys.platform == "win32":
+    sv_ttk.use_light_theme()
+style_ttk_fonts(root_window)
 # 设置相关变量
 checkbuttons1=tk.IntVar()
 checkbuttons1.set(1)
@@ -416,7 +443,7 @@ file_menu.add_command(label="彩蛋",command=Ciallo)
 file_menu.add_command(label="关于",command=lambda: messagebox.showinfo("关于","2026©hanhan_boy Version 1.0.2",parent=root_window))
 # ============ 主界面（内容随窗口大小自适应） ============
 # 顶部说明文字：字号更小，宽度随窗口自动换行
-text = tk.Label(root_window,bg="#F5F5F7",justify="left",text="""欢迎来到抽学号程序！
+text = ttk.Label(root_window,justify="left",text="""欢迎来到抽学号程序！
 此程序目前有两个模式：
 Blue Archieve(BA)模式和Genshin Impact（GI）模式
 BA有概率弹出“脑子 未响应”弹窗，如果选择关闭器官选项，则会直接关闭程序
@@ -435,27 +462,27 @@ def fit_intro(_event=None):
 root_window.bind('<Configure>', fit_intro)
 fit_intro()
 
-r1=tk.Radiobutton(root_window,bg="#F5F5F7",text="BA模式",variable=v,value=1)
-r1.grid(row=1,column=0,sticky="w",padx=px_len(8))
-r2=tk.Radiobutton(root_window,bg="#F5F5F7",text="GI模式",variable=v,value=2)
-r2.grid(row=2,column=0,sticky="w",padx=px_len(8))
-r3=tk.Radiobutton(root_window,bg="#F5F5F7",text="BA角色模式",variable=v,value=3)
-r3.grid(row=3,column=0,sticky="w",padx=px_len(8))
-r4=tk.Radiobutton(root_window,bg="#F5F5F7",text="正常模式",variable=v,value=4)
-r4.grid(row=4,column=0,sticky="w",padx=px_len(8))
-r5=tk.Radiobutton(root_window,bg="#F5F5F7",text="自定义模式",variable=v,value=5)
-r5.grid(row=5,column=0,sticky="w",padx=px_len(8))
-l1=tk.Label(root_window,bg="#F5F5F7",text="次数",font=("微软雅黑", font_scale(10)))
+r1=ttk.Radiobutton(root_window,text="BA模式",variable=v,value=1,style='TRadiobutton')
+r1.grid(row=1,column=0,sticky="w",padx=px_len(10))
+r2=ttk.Radiobutton(root_window,text="GI模式",variable=v,value=2,style='TRadiobutton')
+r2.grid(row=2,column=0,sticky="w",padx=px_len(10))
+r3=ttk.Radiobutton(root_window,text="BA角色模式",variable=v,value=3,style='TRadiobutton')
+r3.grid(row=3,column=0,sticky="w",padx=px_len(10))
+r4=ttk.Radiobutton(root_window,text="正常模式",variable=v,value=4,style='TRadiobutton')
+r4.grid(row=4,column=0,sticky="w",padx=px_len(10))
+r5=ttk.Radiobutton(root_window,text="自定义模式",variable=v,value=5,style='TRadiobutton')
+r5.grid(row=5,column=0,sticky="w",padx=px_len(10))
+l1=ttk.Label(root_window,text="次数",font=("微软雅黑", font_scale(10)))
 l1.grid(row=1,column=1,sticky="w",padx=px_len(6))
-c1=tk.Checkbutton(root_window,bg="#F5F5F7",text="进行下一次抽时是否清空文本框",variable=checkbuttons1)
+c1=ttk.Checkbutton(root_window,text="进行下一次抽时是否清空文本框",variable=checkbuttons1,style='TCheckbutton')
 c1.grid(row=2,column=1,sticky="w",padx=px_len(6))
-c2=tk.Checkbutton(root_window,bg="#F5F5F7",text="是否弹出“神经资源管理器”",variable=checkbuttons2)
+c2=ttk.Checkbutton(root_window,text="是否弹出“神经资源管理器”",variable=checkbuttons2,style='TCheckbutton')
 c2.grid(row=3,column=1,sticky="w",padx=px_len(6))
-c3=tk.Checkbutton(root_window,bg="#F5F5F7",text="自定义模式是否使用上一次的设置",variable=checkbuttons3)
+c3=ttk.Checkbutton(root_window,text="自定义模式是否使用上一次的设置",variable=checkbuttons3,style='TCheckbutton')
 c3.grid(row=4,column=1,sticky="w",padx=px_len(6))
-e1=tk.Entry(root_window,bd=2)
+e1=ttk.Entry(root_window)
 e1.grid(row=1,column=2,sticky="w",padx=px_len(6))
-b1=tk.Button(root_window,bg="#F5F5F7",text="抽学号",font=("微软雅黑", font_scale(10)),command=mod)
+b1=ttk.Button(root_window,text="抽学号",command=mod,style='TButton')
 b1.grid(row=2,column=2,sticky="w",padx=px_len(6))
 # 结果展示区：随窗口大小自动伸缩（拉大窗口时文本区跟着变大）
 e2=tk.Text(root_window,bg="grey",font=("微软雅黑", font_scale(10)),width=unit_scale(44),height=unit_scale(10))
@@ -477,7 +504,6 @@ root_window.grid_columnconfigure(4, weight=0, minsize=unit_scale(14))
 for row in range(6):
     root_window.grid_rowconfigure(row, weight=0)
 root_window.grid_rowconfigure(6, weight=1)
-root_window.configure(bg="#F5F5F7")
 # 窗口可调整大小：设定最小尺寸，防止把控件挤没
 root_window.minsize(px_len(520), px_len(400))
 root_window.bind('<Return>', lambda event: mod())
@@ -486,3 +512,4 @@ if str(sys.argv[1:]) == "['test_time']":
     #测量启动用时
     sys.exit(0)
 root_window.mainloop()
+    

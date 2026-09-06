@@ -180,15 +180,18 @@ def load_from_file(file_path: str, strip: bool = True, skip_empty: bool = True) 
             line = list(lines)
             for i in line:
                 if "#" in i:
-                    _ = i.find("#")
-                    if i[_+1:len(i)+1] == "yellow":
-                        line_gold.append(i[:_])
-                    elif i[_+1:len(i)+1] == "blue":
-                        line_blue.append(i[:_])
-                    elif i[_+1:len(i)+1] == "magenta":
-                        line_magenta.append(i[:_])
+                    _ = i[i.find("#")+1:]
+                    _s = i[:i.find("#")]
+                    _ = _.strip()
+                    _s = _s.strip()
+                    if _ == "gold":
+                        line_gold.append(_s)
+                    elif _ == "blue":
+                        line_blue.append(_s)
+                    elif _ == "purple":
+                        line_magenta.append(_s)
                     else:
-                        line_empty.append(i[:_])
+                        line_empty.append(_s)
                 else:
                     line_empty.append(i)
             return line_gold, line_blue, line_magenta, line_empty

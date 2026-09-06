@@ -58,11 +58,12 @@ case "${1:-}" in
         if [ "${2:-}" = "--onefile" ]; then
             "$PYTHON" -m nuitka --follow-imports --standalone --enable-plugin=tk-inter \
                 --include-data-dir=assets=assets "${ICON_OPTS[@]}" \
-                --show-progress --onefile choose.py
+                --onefile \
+                --product-version=1.0.2 --product-name="抽学号" --company-name=hanhan_boy choose.py
         else
             "$PYTHON" -m nuitka --follow-imports --standalone --enable-plugin=tk-inter \
                 --include-data-dir=assets=assets "${ICON_OPTS[@]}" \
-                --show-progress choose.py
+                --product-version=1.0.2 --product-name="抽学号" --company-name=hanhan_boy choose.py
         fi
         ;;
     --pyinstaller)
@@ -79,10 +80,10 @@ case "${1:-}" in
         # Linux/macOS 的 --add-data 分隔符为 ':'（Windows 为 ';'）
         if [ "${2:-}" = "--onefile" ]; then
             pyinstaller --noconfirm --onefile --windowed "${ICON_OPTS[@]}" \
-                --add-data "assets:assets" choose.py
+                --add-data --clean "assets:assets" choose.py
         else
             pyinstaller --noconfirm --windowed "${ICON_OPTS[@]}" \
-                --add-data "assets:assets" choose.py
+                --add-data --clean "assets:assets" choose.py
         fi
         ;;
     *)
